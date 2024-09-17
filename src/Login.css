@@ -1,0 +1,82 @@
+.login-container {
+    width: 350px; /* Increased width */
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #6a5acd; /* Set the background color to match your theme */
+  }
+  
+  h2 {
+    text-align: center;
+    color: black;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white; /* Change label text color to white */
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .remember-me label {
+    margin-left: 5px;
+    color: white; /* Change color of Remember me text to white */
+  }
+  
+  .forgot-password a {
+    color: black; /* Set the Forgot password color to black */
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .register-prompt {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .register-prompt a {
+    color: white; /* Set Register link color to white */
+    text-decoration: none;
+  }
+  
+  .register-prompt a:hover {
+    text-decoration: underline;
+  }
+  
