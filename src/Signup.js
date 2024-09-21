@@ -1,22 +1,38 @@
+// src/Signup.js
 import React, { useState } from 'react';
-import './Login.css'; // Same CSS file as the login page
+import { auth, googleProvider } from './firebase';
+import './Login.css';
 
 const Signup = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [terms, setTerms] = useState(false);
+  const [name, setName] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleEmailSignup = async (e) => {
     e.preventDefault();
-    console.log('Signup submitted:', { name, email, password, terms });
-    // Perform signup logic here
+    try {
+      await auth.createUserWithEmailAndPassword(email, password);
+      // Optionally, set display name
+      await auth.currentUser.updateProfile({ displayName: name });
+      // Redirect or additional actions
+    } catch (error) {
+      console.error('Error signing up with email and password:', error);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await auth.signInWithPopup(googleProvider);
+      // Additional actions if needed
+    } catch (error) {
+      console.error('Error signing up with Google:', error);
+    }
   };
 
   return (
-    <div className="login-container">
+    <div className="signup-container">
       <h2>Signup</h2>
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleEmailSignup} className="signup-form">
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -28,7 +44,6 @@ const Signup = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -40,7 +55,6 @@ const Signup = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -52,24 +66,17 @@ const Signup = () => {
             required
           />
         </div>
-
-        <div className="form-options">
-          <div className="remember-me">
-            <input
-              type="checkbox"
-              id="terms"
-              checked={terms}
-              onChange={(e) => setTerms(e.target.checked)}
-            />
-            <label htmlFor="terms">I agree to terms and conditions</label>
-          </div>
-        </div>
-
-        <button type="submit" className="login-button">Signup</button>
+        <button type="submit" className="signup-button">Signup</button>
       </form>
 
+      <div className="google-signup">
+        <button onClick={handleGoogleSignUp} className="google-button">
+          Sign up with Google
+        </button>
+      </div>
+      
       <div className="register-prompt">
-      <p>Already have an account? <a href="/login">Login</a></p>
+        <p>Already have an account? <a href="/login">Login</a></p>
       </div>
     </div>
   );

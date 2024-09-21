@@ -1,38 +1,48 @@
+// src/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Add your styles here
+import { auth, googleProvider } from './firebase';
+import './Login.css';
 
 const Login = () => {
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', { name, password, rememberMe });
-    // Perform login logic here
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      navigate('/expense');
+    } catch (error) {
+      console.error('Error logging in with email and password:', error);
+    }
+  };
 
-    // Redirect to the Expense page upon successful login
-    navigate('/expense');
+  const handleGoogleSignIn = async () => {
+    try {
+      await auth.signInWithPopup(googleProvider);
+      navigate('/expense');
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
   };
 
   return (
     <div className="login-container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleEmailLogin} className="login-form">
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
             required
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -44,26 +54,15 @@ const Login = () => {
             required
           />
         </div>
-
-        <div className="form-options">
-          <div className="remember-me">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-            />
-            <label htmlFor="rememberMe">Remember me</label>
-          </div>
-
-          <div className="forgot-password">
-            <a href="#!">Forgot password?</a>
-          </div>
-        </div>
-
         <button type="submit" className="login-button">Login</button>
       </form>
 
+      <div className="google-signin">
+        <button onClick={handleGoogleSignIn} className="google-button">
+          Sign in with Google
+        </button>
+      </div>
+      
       <div className="register-prompt">
         <p>Don't have an account? <a href="/signup">Register</a></p>
       </div>
