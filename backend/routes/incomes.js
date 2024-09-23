@@ -14,13 +14,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get All Incomes
+// Get Incomes for a specific user
 router.get('/', async (req, res) => {
+  const userId = req.query.userId; // Get userId from query parameters
   try {
-    const incomes = await Income.find();
+    const incomes = await Income.find({ userId }); // Filter by userId
     res.json(incomes);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).send('Server error');
   }
 });
 

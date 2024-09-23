@@ -1,12 +1,14 @@
 // src/Signup.js
 import React, { useState } from 'react';
 import { auth, googleProvider } from './firebase';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Login.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleEmailSignup = async (e) => {
     e.preventDefault();
@@ -14,7 +16,8 @@ const Signup = () => {
       await auth.createUserWithEmailAndPassword(email, password);
       // Optionally, set display name
       await auth.currentUser.updateProfile({ displayName: name });
-      // Redirect or additional actions
+      // Redirect to the expense page
+      navigate('/expenses'); // Adjust the route as needed
     } catch (error) {
       console.error('Error signing up with email and password:', error);
     }
@@ -23,7 +26,8 @@ const Signup = () => {
   const handleGoogleSignUp = async () => {
     try {
       await auth.signInWithPopup(googleProvider);
-      // Additional actions if needed
+      // Redirect to the expense page after Google sign-in
+      navigate('/expenses'); // Adjust the route as needed
     } catch (error) {
       console.error('Error signing up with Google:', error);
     }

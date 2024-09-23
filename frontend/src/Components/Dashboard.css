@@ -1,0 +1,26 @@
+.dashboard-container {
+    padding: 20px;
+  }
+  .summary {
+    margin-bottom: 20px;
+  }
+  .filter {
+    margin-bottom: 20px;
+  }
+  .tables {
+    display: flex;
+    justify-content: space-between;
+  }
+  .tables div {
+    flex: 1;
+    margin: 10px;
+  }
+  .tables table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .tables th, .tables td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  

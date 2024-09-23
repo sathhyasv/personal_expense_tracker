@@ -1,224 +1,140 @@
-/* General Styles */
+/* General styling for the container and cards */
 .expense-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  h1 {
-    color: #333;
-    font-size: 24px;
-  }
-  
-  .add-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Form Styles */
-  .expense-form, .income-form {
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .expense-form h2, .income-form h2 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  .expense-form label, .income-form label {
-    display: block;
-    margin-bottom: 10px;
-    color: #555;
-  }
-  
-  .expense-form input, .income-form input, .expense-form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .submit-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: #45a049;
-  }
-  
-  button[type="button"] {
-    margin-top: 10px;
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #1e87d3;
-  }
-  
-  /* Table Styles */
-  .expense-table, .income-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .expense-table th, .income-table th, 
-  .expense-table td, .income-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .expense-table th, .income-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .expense-table tr:nth-child(even), .income-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .expense-table td, .income-table td {
-    color: #555;
-  }
-  
-  .action-button {
-    padding: 5px 10px;
-    border: none;
-    background-color: #2196F3;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .action-button:hover {
-    background-color: #1e87d3;
-  }
-  
-  /* Footer Styles */
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .footer p {
-    color: #666;
-    font-size: 14px;
-  }
-  .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .expense-container {
-    display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.expense-card,
+.income-card {
+  flex: 1;
+}
+
+/* Styling for the form elements */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="date"],
+.form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form input[type="text"]::placeholder,
+.form input[type="number"]::placeholder {
+  color: #999;
+}
+
+.form input[type="text"]:focus,
+.form input[type="number"]:focus,
+.form input[type="date"]:focus,
+.form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button styling */
+.action-button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Styling for the table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.table td {
+  background-color: #f9f9f9;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table td button {
+  padding: 8px 12px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.table td button:hover {
+  background-color: #cc0000;
+}
+
+/* Custom category input styling */
+.form input[name="customCategory"] {
+  background-color: #e6f7ff;
+  border: 1px solid #b3e0ff;
+}
+
+.form input[name="customCategory"]::placeholder {
+  color: #007bff;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .cards-container {
     flex-direction: column;
-    align-items: center;
-    max-width: 800px;
-    margin: auto;
   }
-  
-  .header {
-    background-color: #4CAF50; /* Green */
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .table th, .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .table tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .table th {
-    background-color: #4CAF50; /* Green */
-    color: white;
-  }
-  
-  @media (max-width: 600px) {
-    .expense-container {
-      padding: 10px;
-    }
-  
-    .table {
-      font-size: 14px;
-    }
-  }
-  
+}

@@ -1,145 +1,115 @@
+// Dashboard.js
 import React, { useState, useEffect } from 'react';
+import { auth } from '../firebase'; // Import Firebase auth
+import './Dashboard.css';
+import DashboardVisualizations from './DashboardVisualizations';
 
-const Dashboard = ({ incomes, expenses }) => {
+const Dashboard = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
-  const [filteredExpenses, setFilteredExpenses] = useState([]);
-  const [filterType, setFilterType] = useState('lastWeek'); // default filter
-  const [customDateRange, setCustomDateRange] = useState({
-    startDate: '',
-    endDate: ''
-  });
+  const [userId, setUserId] = useState(null);
+  const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState([]);
+  const [filter, setFilter] = useState('lastWeek'); // Default filter
 
   useEffect(() => {
-    calculateTotals();
-  }, [incomes, expenses]);
-
-  // Function to calculate total income and expenses
-  const calculateTotals = () => {
-    const incomeTotal = incomes.reduce((acc, income) => acc + parseFloat(income.amount), 0);
-    const expenseTotal = expenses.reduce((acc, expense) => acc + parseFloat(expense.amount), 0);
-    setTotalIncome(incomeTotal);
-    setTotalExpenses(expenseTotal);
-  };
-
-  // Function to filter expenses based on selected date range
-  const filterExpensesByDate = () => {
-    const today = new Date();
-    let filtered = expenses;
-
-    switch (filterType) {
-      case 'lastWeek':
-        filtered = expenses.filter(expense => {
-          const expenseDate = new Date(expense.date);
-          const lastWeek = new Date(today);
-          lastWeek.setDate(today.getDate() - 7);
-          return expenseDate >= lastWeek && expenseDate <= today;
-        });
-        break;
-      case 'lastMonth':
-        filtered = expenses.filter(expense => {
-          const expenseDate = new Date(expense.date);
-          const lastMonth = new Date(today);
-          lastMonth.setMonth(today.getMonth() - 1);
-          return expenseDate >= lastMonth && expenseDate <= today;
-        });
-        break;
-      case 'custom':
-        const { startDate, endDate } = customDateRange;
-        filtered = expenses.filter(expense => {
-          const expenseDate = new Date(expense.date);
-          return expenseDate >= new Date(startDate) && expenseDate <= new Date(endDate);
-        });
-        break;
-      default:
-        break;
-    }
-
-    setFilteredExpenses(filtered);
-  };
-
-  // Handle custom date range input
-  const handleCustomDateChange = (e) => {
-    const { name, value } = e.target;
-    setCustomDateRange({ ...customDateRange, [name]: value });
-  };
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
-    filterExpensesByDate();
-  }, [filterType, customDateRange, expenses]);
+    const fetchData = async () => {
+      if (userId) {
+        try {
+          const expensesResponse = await fetch(`http://localhost:5000/api/expenses?userId=${userId}`);
+          const incomesResponse = await fetch(`http://localhost:5000/api/incomes?userId=${userId}`);
+          
+          const expensesData = await expensesResponse.json();
+          const incomesData = await incomesResponse.json();
+
+          setExpenses(expensesData);
+          setIncomes(incomesData);
+
+          const totalExp = expensesData.reduce((acc, expense) => acc + expense.amount, 0);
+          const totalInc = incomesData.reduce((acc, income) => acc + income.amount, 0);
+
+          setTotalExpenses(totalExp);
+          setTotalIncome(totalInc);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+    fetchData();
+  }, [userId]);
 
   return (
     <div className="dashboard-container">
-      <h2>Expense & Income Dashboard</h2>
-      <div className="totals">
-        <p>Total Income: ${totalIncome.toFixed(2)}</p>
-        <p>Total Expenses: ${totalExpenses.toFixed(2)}</p>
+      <h1>Dashboard</h1>
+      <DashboardVisualizations expenses={expenses} incomes={incomes} />
+      <div className="summary">
+        <h2>Total Income: ${totalIncome}</h2>
+        <h2>Total Expenses: ${totalExpenses}</h2>
       </div>
-      <div className="filters">
-        <label>
-          Filter by:
-          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-            <option value="lastWeek">Last Week</option>
-            <option value="lastMonth">Last Month</option>
-            <option value="custom">Custom Date Range</option>
-          </select>
-        </label>
-
-        {filterType === 'custom' && (
-          <div className="custom-date-range">
-            <label>
-              Start Date:
-              <input
-                type="date"
-                name="startDate"
-                value={customDateRange.startDate}
-                onChange={handleCustomDateChange}
-              />
-            </label>
-            <label>
-              End Date:
-              <input
-                type="date"
-                name="endDate"
-                value={customDateRange.endDate}
-                onChange={handleCustomDateChange}
-              />
-            </label>
-          </div>
-        )}
+      <div className="filter">
+        <select onChange={(e) => setFilter(e.target.value)} value={filter}>
+          <option value="lastWeek">Last Week</option>
+          <option value="lastMonth">Last Month</option>
+          <option value="customRange">Custom Range</option>
+        </select>
       </div>
-      <div className="filtered-expenses">
-        <h3>Filtered Expenses</h3>
-        <ul>
-          {filteredExpenses.map((expense, index) => (
-            <li key={index}>
-              {expense.description} - ${expense.amount} on {expense.date}
-            </li>
-          ))}
-        </ul>
+      <div className="tables">
+        <div className="expenses-table">
+          <h3>Expenses</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.map((expense) => (
+                <tr key={expense._id}>
+                  <td>{expense.description}</td>
+                  <td>${expense.amount}</td>
+                  <td>{expense.category}</td>
+                  <td>{expense.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="incomes-table">
+          <h3>Incomes</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {incomes.map((income) => (
+                <tr key={income._id}>
+                  <td>{income.source}</td>
+                  <td>${income.amount}</td>
+                  <td>{income.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-      {/* Add CSS styles here */}
-      <style jsx>{`
-        .dashboard-container {
-          padding: 20px;
-        }
-        .totals {
-          margin-bottom: 20px;
-        }
-        .filters {
-          margin-bottom: 20px;
-        }
-        .custom-date-range {
-          margin-top: 10px;
-        }
-        .filtered-expenses ul {
-          list-style: none;
-          padding-left: 0;
-        }
-        .filtered-expenses li {
-          margin-bottom: 10px;
-        }
-      `}</style>
     </div>
   );
 };
