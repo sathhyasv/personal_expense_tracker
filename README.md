@@ -79,6 +79,10 @@ Filter your transactions by date.
 
 💾 Export to Excel/PDF
 
+## Screenshots
+![image](https://github.com/user-attachments/assets/42822f28-7b37-42cd-9db3-74863232215d)
+
+
 
 
 
