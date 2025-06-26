@@ -80,7 +80,13 @@ Filter your transactions by date.
 💾 Export to Excel/PDF
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/47dd7e30-bc65-4cc6-b904-6d0a91df99e5)
+
 ![image](https://github.com/user-attachments/assets/42822f28-7b37-42cd-9db3-74863232215d)
+
+![image](https://github.com/user-attachments/assets/eadc5c15-013e-43ac-8090-f8779f5e7df4)
+
+![image](https://github.com/user-attachments/assets/d09863dd-8cd8-4846-bf62-f40cd39a1755)
 
 
 
